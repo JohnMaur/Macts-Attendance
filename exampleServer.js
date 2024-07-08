@@ -21,6 +21,14 @@ const io = new Server(server, {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+io.on('connection', (socket) => {
+  console.log('New WebSocket connection');
+  
+  socket.on('disconnect', () => {
+    console.log('WebSocket disconnected');
+  });
+});
+
 // Array to store RFID tag data
 const tagDataArray = [];
 
