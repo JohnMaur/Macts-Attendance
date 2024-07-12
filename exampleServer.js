@@ -74,6 +74,7 @@ const { Server } = require("socket.io");
 const axios = require('axios');
 const Koa = require("koa");
 const Router = require("koa-router");
+const moment = require('moment-timezone');
 
 const app = express();
 const port = process.env.PORT || 2727;
@@ -126,7 +127,7 @@ app.post('/tagData', async (req, res) => {
   try {
     const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/studentInfo');
     const students = response.data;
-    const formattedDate = new Date().toLocaleString(); // Format the date
+    const formattedDate = moment().tz('Asia/Manila').format('YYYY-MM-DD HH:mm:ss'); // Format the date in Philippine Time
 
     // Check for matching tagValue and attendance_code
     const matchedStudent = students.find(student => student.tagValue === tagData && student.attendance_code);
