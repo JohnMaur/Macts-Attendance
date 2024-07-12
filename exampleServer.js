@@ -67,6 +67,7 @@
 // server.listen(port, () => {
 //   console.log(`Server running on port ${port}`);
 // });
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
@@ -127,7 +128,7 @@ app.post('/tagData', async (req, res) => {
   try {
     const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/studentInfo');
     const students = response.data;
-    const formattedDate = moment().tz('Asia/Manila').format('YYYY-MM-DD HH:mm:ss'); // Format the date in Philippine Time
+    const formattedDate = moment().tz('Asia/Manila').format('M/D/YYYY, h:mm:ss A'); // Format the date in Philippine Time
 
     // Check for matching tagValue and attendance_code
     const matchedStudent = students.find(student => student.tagValue === tagData && student.attendance_code);
