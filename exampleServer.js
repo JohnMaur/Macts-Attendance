@@ -119,7 +119,8 @@ app.post('/tagData', async (req, res) => {
 
   if (tagDataMap[tagData] && now - tagDataMap[tagData] < timeout) {
     console.log("You've already tapped your RFID card. Please wait for a minute before tapping again.");
-    return res.status(429).send("You've already tapped your RFID card. Please wait for a minute before tapping again.");
+    io.emit('tagData', { tagData, excessiveTap: true });
+    return res.status(429).send({ message: "You've already tapped your RFID card. Please wait for a minute before tapping again." });
   }
 
   tagDataMap[tagData] = now;
@@ -156,7 +157,7 @@ app.post('/tagData', async (req, res) => {
       console.log('No matching RFID tag found or attendance code is empty');
     }
 
-    io.emit('tagData', tagData);
+    io.emit('tagData', { tagData, excessiveTap: false });
   } catch (error) {
     console.error('Error fetching student information or recording tap history:', error);
   }
